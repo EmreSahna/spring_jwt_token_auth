@@ -33,6 +33,8 @@ public class WebSecurityConfig {
         return http
                 .csrf().disable()
                 .authorizeRequests()
+                .antMatchers(HttpMethod.POST,"/api/user")
+                .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

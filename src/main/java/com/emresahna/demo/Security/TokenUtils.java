@@ -2,6 +2,7 @@ package com.emresahna.demo.Security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
@@ -15,17 +16,18 @@ public class TokenUtils {
     private final static String accessToken = "256bit accessToken here";
     private final static Long expireTime = 2_592_000L * 1_000;
 
-    public static String createToken(String username, String password){
+    public static String createToken(Long id){
         Date expirationDate = new Date(System.currentTimeMillis() + expireTime);
+        Date issuedAtDate = new Date(System.currentTimeMillis());
 
         Map<String,Object> extra = new HashMap<>();
-        extra.put("username",username);
+        extra.put("id",id);
 
         return Jwts.builder()
-                .setSubject(password)
-                .setExpiration(expirationDate)
                 .addClaims(extra)
-                .signWith(Keys.hmacShaKeyFor(accessToken.getBytes()))
+                .setIssuedAt(issuedAtDate)
+                .setExpiration(expirationDate)
+                .signWith(Keys.hmacShaKeyFor(accessToken.getBytes()),SignatureAlgorithm.HS256)
                 .compact();
     }
 
