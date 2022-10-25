@@ -1,42 +1,53 @@
 package com.emresahna.demo.Controller;
 
-import com.emresahna.demo.Model.IsLoggedInResponse;
-import com.emresahna.demo.Model.Payload;
+import com.emresahna.demo.Model.LoginResponse;
 import com.emresahna.demo.Model.User;
 import com.emresahna.demo.Repository.UserRepository;
 import com.emresahna.demo.Request.UserRequest;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.emresahna.demo.Security.TokenUtils;
 import lombok.AllArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/v1/user")
 @AllArgsConstructor
 public class UserController {
     private final UserRepository userRepository;
+    private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
 
+    @PostMapping("/login")
+    public LoginResponse login(@RequestBody UserRequest form){
+        try {
+            Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(form.getUsername(), form.getPassword()));
+            User user = userRepository.findUserByUsername(((UserDetails) auth.getPrincipal()).getUsername()).orElse(null);
+            LoginResponse response = new LoginResponse();
+            response.setUsername(form.getUsername());
+            response.setToken(TokenUtils.createToken(user.getId(),user.getUsername()));
+            return response;
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
     @PostMapping("/is_logged_in")
-    public IsLoggedInResponse stillLogin(@RequestHeader("Authorization") String token) throws JsonProcessingException {
+    public LoginResponse stillLogin(@RequestHeader("Authorization") String token){
         token = token.replace("Bearer ","");
-        String[] tokenItems = token.split("\\.");
-        Base64.Decoder decoder = Base64.getUrlDecoder();
-        String s = new String(decoder.decode(tokenItems[1]), StandardCharsets.UTF_8);
-        Payload payload = new ObjectMapper().readValue(s, Payload.class);
-        User user = userRepository.findById(payload.getId()).orElse(null);
-        IsLoggedInResponse response = new IsLoggedInResponse();
-        response.setUsername(user.getUsername());
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        LoginResponse response = new LoginResponse();
+        response.setUsername(name);
         response.setToken(token);
         return response;
     }
-
 
     @GetMapping
     public List<User> findAllUsers(){

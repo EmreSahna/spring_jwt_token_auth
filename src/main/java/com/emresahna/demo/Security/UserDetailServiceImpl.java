@@ -3,7 +3,6 @@ package com.emresahna.demo.Security;
 import com.emresahna.demo.Model.User;
 import com.emresahna.demo.Repository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

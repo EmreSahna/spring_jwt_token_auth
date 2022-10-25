@@ -13,15 +13,13 @@ import java.util.Map;
 
 public class TokenUtils {
 
-    private final static String accessToken = "256bit accessToken here";
-    private final static Long expireTime = 2_592_000L * 1_000;
-
-    public static String createToken(Long id){
+    public static String createToken(Long id,String username){
         Date expirationDate = new Date(System.currentTimeMillis() + expireTime);
         Date issuedAtDate = new Date(System.currentTimeMillis());
 
         Map<String,Object> extra = new HashMap<>();
         extra.put("id",id);
+        extra.put("username",username);
 
         return Jwts.builder()
                 .addClaims(extra)
@@ -37,7 +35,7 @@ public class TokenUtils {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-        String password = claims.getSubject();
-        return new UsernamePasswordAuthenticationToken(password, null, Collections.emptyList());
+        String username = (String) claims.get("username");
+        return new UsernamePasswordAuthenticationToken(username, null, Collections.emptyList());
     }
 }

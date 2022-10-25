@@ -1,9 +1,9 @@
-package com.emresahna.demo.Security;
+package com.emresahna.demo.Model;
 
 import lombok.Data;
 
 @Data
-public class AuthCredentals {
+public class LoginRequest {
     private String username;
     private String password;
 }
