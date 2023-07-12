@@ -1,6 +1,6 @@
-package com.emresahna.demo.Repository;
+package com.emresahna.jwtsecurity.repository;
 
-import com.emresahna.demo.Model.User;
+import com.emresahna.jwtsecurity.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

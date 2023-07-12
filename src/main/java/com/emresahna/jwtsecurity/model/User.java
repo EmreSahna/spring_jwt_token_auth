@@ -1,17 +1,29 @@
-package com.emresahna.demo.Security;
+package com.emresahna.jwtsecurity.model;
 
-import com.emresahna.demo.Model.User;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
 
+@Data
+@Entity
+@Builder
+@NoArgsConstructor
 @AllArgsConstructor
-public class UserDetailImpl implements UserDetails {
+@Table(name = "USER")
+public class User implements UserDetails {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private final User user;
+    private String username;
+    private String password;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -20,12 +32,12 @@ public class UserDetailImpl implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return this.password;
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return this.username;
     }
 
     @Override
@@ -49,6 +61,6 @@ public class UserDetailImpl implements UserDetails {
     }
 
     public Long getId(){
-        return user.getId();
+        return this.id;
     }
 }

@@ -1,5 +1,7 @@
-package com.emresahna.demo.Security;
+package com.emresahna.jwtsecurity.config;
 
+import com.emresahna.jwtsecurity.security.JwtAuthenticationFilter;
+import com.emresahna.jwtsecurity.security.JwtAuthorizationFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,7 +32,7 @@ public class WebSecurityConfig {
         return http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST,"/api/v1/user/login")
+                .antMatchers(HttpMethod.POST,"/auth/login")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

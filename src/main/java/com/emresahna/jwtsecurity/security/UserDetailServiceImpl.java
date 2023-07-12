@@ -1,7 +1,6 @@
-package com.emresahna.demo.Security;
+package com.emresahna.jwtsecurity.security;
 
-import com.emresahna.demo.Model.User;
-import com.emresahna.demo.Repository.UserRepository;
+import com.emresahna.jwtsecurity.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,7 +14,6 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findUserByUsername(username).orElseThrow(() -> new RuntimeException("User not found."));
-        return new UserDetailImpl(user);
+        return userRepository.findUserByUsername(username).orElseThrow(() -> new RuntimeException("User not found."));
     }
 }

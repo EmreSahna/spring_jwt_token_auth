@@ -1,4 +1,4 @@
-package com.emresahna.demo.Model;
+package com.emresahna.jwtsecurity.dto;
 
 import lombok.Data;
 

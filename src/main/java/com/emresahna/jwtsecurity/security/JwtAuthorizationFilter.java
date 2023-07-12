@@ -1,5 +1,6 @@
-package com.emresahna.demo.Security;
+package com.emresahna.jwtsecurity.security;
 
+import com.emresahna.jwtsecurity.utils.TokenUtils;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;

@@ -1,9 +1,10 @@
-package com.emresahna.demo.Security;
+package com.emresahna.jwtsecurity.utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 import java.util.Collections;
@@ -12,6 +13,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TokenUtils {
+    @Value("${jwt.accessToken}")
+    private static String accessToken;
+    @Value("${jwt.expireTime}")
+    private static Long expireTime;
 
     public static String createToken(Long id,String username){
         Date expirationDate = new Date(System.currentTimeMillis() + expireTime);

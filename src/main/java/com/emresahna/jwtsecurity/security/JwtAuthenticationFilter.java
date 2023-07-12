@@ -1,6 +1,8 @@
-package com.emresahna.demo.Security;
+package com.emresahna.jwtsecurity.security;
 
-import com.emresahna.demo.Request.UserRequest;
+import com.emresahna.jwtsecurity.dto.UserRequest;
+import com.emresahna.jwtsecurity.model.User;
+import com.emresahna.jwtsecurity.utils.TokenUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -38,7 +40,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             HttpServletResponse response,
                                             FilterChain chain,
                                             Authentication authResult) throws IOException{
-        UserDetailImpl userDetail = (UserDetailImpl) authResult.getPrincipal();
+        User userDetail = (User) authResult.getPrincipal();
         String token = TokenUtils.createToken(userDetail.getId(),userDetail.getUsername());
         response.addHeader("Authorization","Bearer "+token);
         response.getWriter().flush();
