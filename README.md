@@ -26,3 +26,43 @@ When a user successfully logs in using their credentials, a JWT token will be re
 ```
 Authorization: Bearer <token>
 ```
+
+#### Secure Endpoints (GET)
+
+```http
+  /home
+```
+
+#### Non-Secure Endpoints (POST)
+
+```http
+  /auth/login
+  /auth/register
+```
+
+User Request
+```JSON
+{
+  "username":"example",
+  "password":"password"
+}
+```
+
+Login Response
+```JSON
+{
+  "username":"example",
+  "token":"xxxxx.yyyyy.zzzzz"
+}
+```
+
+## Test with cURL
+```bash
+curl -X POST -H "Content-Type: application/json" -d '{"username":"example","password":"password"}' http://localhost:8000/auth/register
+```
+```bash
+curl -X POST -H "Content-Type: application/json" -d '{"username":"example","password":"password"}' http://localhost:8000/auth/login
+```
+```bash
+curl -X GET -H "Authorization: Bearer xxxxx.yyyyy.zzzzz" http://localhost:8000/home
+```
