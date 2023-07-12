@@ -31,7 +31,7 @@ public class UserController {
         return userService.findAllUsers();
     }
 
-    @PostMapping
+    @PostMapping("/register")
     public User createUser(@RequestBody UserRequest user){
         return userService.createUser(user);
     }

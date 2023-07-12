@@ -32,7 +32,7 @@ public class WebSecurityConfig {
         return http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST,"/auth/login")
+                .antMatchers(HttpMethod.POST,"/auth/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
